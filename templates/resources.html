@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Resources - Mental Health Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            color: #333;
+            margin: 0;
+        }
+        .back-btn {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .resource-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+        .resource-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .resource-content {
+            padding: 20px;
+        }
+        .resource-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .resource-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .resource-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .resource-link:hover {
+            background-color: #45a049;
+        }
+        .category-section {
+            margin-bottom: 40px;
+        }
+        .category-title {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mental Health Resources</h1>
+            <a href="{{ url_for('user_dashboard') }}" class="back-btn">Back to Dashboard</a>
+        </div>
+
+        <!-- Meditation & Mindfulness -->
+        <div class="category-section">
+            <h2 class="category-title">Meditation & Mindfulness</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <img src="https://img.youtube.com/vi/tybOi4hjZFQ/maxresdefault.jpg" alt="Mindful Breathing" class="resource-thumbnail">
+                    <div class="resource-content">
+                        <h3 class="resource-title">Mindful Breathing Exercise</h3>
+                        <p class="resource-description">Learn a simple breathing technique to reduce stress and anxiety.</p>
+                        <a href="https://www.youtube.com/watch?v=tybOi4hjZFQ" target="_blank" class="resource-link">Watch Video</a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <img src="https://img.youtube.com/vi/4pLUleLdwY4/maxresdefault.jpg" alt="Body Scan Meditation" class="resource-thumbnail">
+                    <div class="resource-content">
+                        <h3 class="resource-title">Body Scan Meditation</h3>
+                        <p class="resource-description">A guided meditation to release tension and promote relaxation.</p>
+                        <a href="https://www.youtube.com/watch?v=4pLUleLdwY4" target="_blank" class="resource-link">Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yoga & Exercise -->
+        <div class="category-section">
+            <h2 class="category-title">Yoga & Exercise</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <img src="https://img.youtube.com/vi/v7AYKMP6rOE/maxresdefault.jpg" alt="Yoga for Anxiety" class="resource-thumbnail">
+                    <div class="resource-content">
+                        <h3 class="resource-title">Yoga for Anxiety Relief</h3>
+                        <p class="resource-description">Gentle yoga poses to help manage anxiety and stress.</p>
+                        <a href="https://www.youtube.com/watch?v=v7AYKMP6rOE" target="_blank" class="resource-link">Watch Video</a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <img src="https://img.youtube.com/vi/MLr0ZQz6h9k/maxresdefault.jpg" alt="Stress Relief Exercises" class="resource-thumbnail">
+                    <div class="resource-content">
+                        <h3 class="resource-title">Quick Stress Relief Exercises</h3>
+                        <p class="resource-description">Simple exercises you can do anywhere to reduce stress.</p>
+                        <a href="https://www.youtube.com/watch?v=MLr0ZQz6h9k" target="_blank" class="resource-link">Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Wellness -->
+        <div class="category-section">
+            <h2 class="category-title">Daily Wellness</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <img src="https://img.youtube.com/vi/1ZYbU82GVz4/maxresdefault.jpg" alt="Healthy Sleep Habits" class="resource-thumbnail">
+                    <div class="resource-content">
+                        <h3 class="resource-title">Healthy Sleep Habits</h3>
+                        <p class="resource-description">Tips and techniques for better sleep and improved mental health.</p>
+                        <a href="https://www.youtube.com/watch?v=1ZYbU82GVz4" target="_blank" class="resource-link">Watch Video</a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <img src="https://img.youtube.com/vi/1ZYbU82GVz4/maxresdefault.jpg" alt="Nutrition for Mental Health" class="resource-thumbnail">
+                    <div class="resource-content">
+                        <h3 class="resource-title">Nutrition for Mental Health</h3>
+                        <p class="resource-description">Learn about foods that support good mental health.</p>
+                        <a href="https://www.youtube.com/watch?v=1ZYbU82GVz4" target="_blank" class="resource-link">Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Self-Care Practices -->
+        <div class="category-section">
+            <h2 class="category-title">Self-Care Practices</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <img src="https://img.youtube.com/vi/1ZYbU82GVz4/maxresdefault.jpg" alt="Journaling for Mental Health" class="resource-thumbnail">
+                    <div class="resource-content">
+                        <h3 class="resource-title">Journaling for Mental Health</h3>
+                        <p class="resource-description">Learn how to use journaling as a tool for emotional well-being.</p>
+                        <a href="https://www.youtube.com/watch?v=1ZYbU82GVz4" target="_blank" class="resource-link">Watch Video</a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <img src="https://img.youtube.com/vi/1ZYbU82GVz4/maxresdefault.jpg" alt="Stress Management Techniques" class="resource-thumbnail">
+                    <div class="resource-content">
+                        <h3 class="resource-title">Stress Management Techniques</h3>
+                        <p class="resource-description">Effective strategies for managing daily stress.</p>
+                        <a href="https://www.youtube.com/watch?v=1ZYbU82GVz4" target="_blank" class="resource-link">Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

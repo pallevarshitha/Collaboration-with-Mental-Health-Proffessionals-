@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mental Health Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            color: #333;
+            margin: 0;
+        }
+        .logout-btn {
+            padding: 8px 16px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+        .welcome-message {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        .card p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mental Health Platform</h1>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+
+        <div class="welcome-message">
+            <h2>Welcome, {{ current_user.username }}!</h2>
+            <p>You are logged in as a {{ current_user.user_type }}.</p>
+        </div>
+
+        <div class="dashboard-content">
+            {% if current_user.user_type == 'user' %}
+                <div class="card">
+                    <h2>Find a Professional</h2>
+                    <p>Connect with mental health professionals who can help you on your journey.</p>
+                </div>
+                <div class="card">
+                    <h2>Track Your Progress</h2>
+                    <p>Monitor your mental health journey and track your progress over time.</p>
+                </div>
+                <div class="card">
+                    <h2>Resources</h2>
+                    <p>Access helpful resources and educational materials about mental health.</p>
+                </div>
+            {% else %}
+                <div class="card">
+                    <h2>Client Management</h2>
+                    <p>Manage your clients and their treatment plans.</p>
+                </div>
+                <div class="card">
+                    <h2>Schedule</h2>
+                    <p>View and manage your appointments and availability.</p>
+                </div>
+                <div class="card">
+                    <h2>Resources</h2>
+                    <p>Access professional resources and guidelines.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html> 

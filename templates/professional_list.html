@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Professional - Mental Health Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            color: #333;
+            margin: 0;
+        }
+        .back-btn {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .professionals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .professional-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.2s;
+        }
+        .professional-card:hover {
+            transform: translateY(-5px);
+        }
+        .professional-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .professional-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+        .hourly-rate {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .professional-details {
+            margin-bottom: 15px;
+        }
+        .detail-item {
+            margin-bottom: 8px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #666;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .select-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        .select-btn:hover {
+            background-color: #45a049;
+        }
+        .chat-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        .chat-btn:hover {
+            background-color: #1976D2;
+        }
+        .availability {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .start-chat-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .cancel-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Find a Professional</h1>
+            <a href="{{ url_for('user_dashboard') }}" class="back-btn">Back to Dashboard</a>
+        </div>
+
+        <div class="professionals-grid">
+            <!-- Professional 1 -->
+            <div class="professional-card">
+                <div class="professional-header">
+                    <div class="professional-name">Dr. Sarah Johnson</div>
+                    <div class="hourly-rate">$150/hr</div>
+                </div>
+                <div class="professional-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Specialization:</span> Clinical Psychology
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">License Number:</span> PSY-12345
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Experience:</span> 8 years
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Education:</span> Ph.D. in Clinical Psychology, Stanford University
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span> dr.sarah.j@example.com
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Bio:</span> Specialized in anxiety disorders and trauma therapy. Certified in CBT and EMDR.
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Availability:</span> <span class="availability">Available</span>
+                    </div>
+                </div>
+                <button class="select-btn" onclick="showConfirmation('Dr. Sarah Johnson', 'dr.sarah.j@example.com')">Select Dr. Johnson</button>
+            </div>
+
+            <!-- Professional 2 -->
+            <div class="professional-card">
+                <div class="professional-header">
+                    <div class="professional-name">Dr. Michael Chen</div>
+                    <div class="hourly-rate">$140/hr</div>
+                </div>
+                <div class="professional-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Specialization:</span> Marriage & Family Therapy
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">License Number:</span> MFT-67890
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Experience:</span> 12 years
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Education:</span> M.S. in Marriage & Family Therapy, UCLA
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span> dr.michael.c@example.com
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Bio:</span> Expert in relationship counseling and family dynamics. Gottman Method certified.
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Availability:</span> <span class="availability">Available</span>
+                    </div>
+                </div>
+                <button class="select-btn" onclick="showConfirmation('Dr. Michael Chen', 'dr.michael.c@example.com')">Select Dr. Chen</button>
+            </div>
+
+            <!-- Professional 3 -->
+            <div class="professional-card">
+                <div class="professional-header">
+                    <div class="professional-name">Dr. Emily Rodriguez</div>
+                    <div class="hourly-rate">$160/hr</div>
+                </div>
+                <div class="professional-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Specialization:</span> Child Psychology
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">License Number:</span> PSY-23456
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Experience:</span> 10 years
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Education:</span> Ph.D. in Child Psychology, Harvard University
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span> dr.emily.r@example.com
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Bio:</span> Specialized in child development and behavioral therapy. Play therapy certified.
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Availability:</span> <span class="availability">Available</span>
+                    </div>
+                </div>
+                <button class="select-btn" onclick="showConfirmation('Dr. Emily Rodriguez', 'dr.emily.r@example.com')">Select Dr. Rodriguez</button>
+            </div>
+
+            <!-- Professional 4 -->
+            <div class="professional-card">
+                <div class="professional-header">
+                    <div class="professional-name">Dr. James Wilson</div>
+                    <div class="hourly-rate">$145/hr</div>
+                </div>
+                <div class="professional-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Specialization:</span> Addiction Counseling
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">License Number:</span> LADC-34567
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Experience:</span> 15 years
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Education:</span> M.S. in Addiction Counseling, Columbia University
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span> dr.james.w@example.com
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Bio:</span> Expert in substance abuse treatment and recovery support. Certified in trauma-informed care.
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Availability:</span> <span class="availability">Available</span>
+                    </div>
+                </div>
+                <button class="select-btn" onclick="showConfirmation('Dr. James Wilson', 'dr.james.w@example.com')">Select Dr. Wilson</button>
+            </div>
+
+            <!-- Professional 5 -->
+            <div class="professional-card">
+                <div class="professional-header">
+                    <div class="professional-name">Dr. Lisa Patel</div>
+                    <div class="hourly-rate">$155/hr</div>
+                </div>
+                <div class="professional-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Specialization:</span> Trauma Therapy
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">License Number:</span> PSY-45678
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Experience:</span> 9 years
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Education:</span> Ph.D. in Clinical Psychology, Yale University
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span> dr.lisa.p@example.com
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Bio:</span> Specialized in trauma recovery and PTSD treatment. EMDR certified.
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Availability:</span> <span class="availability">Available</span>
+                    </div>
+                </div>
+                <button class="select-btn" onclick="showConfirmation('Dr. Lisa Patel', 'dr.lisa.p@example.com')">Select Dr. Patel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h2>Start Chat with <span id="professionalName"></span>?</h2>
+            <p>You can begin communicating with the professional through our secure chat platform.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn start-chat-btn" onclick="startChat()">Start Chat</button>
+                <button class="modal-btn cancel-btn" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedProfessional = null;
+
+        function showConfirmation(name, email) {
+            selectedProfessional = { name, email };
+            document.getElementById('professionalName').textContent = name;
+            document.getElementById('confirmationModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            selectedProfessional = null;
+        }
+
+        function startChat() {
+            if (selectedProfessional) {
+                window.location.href = `/chat/${encodeURIComponent(selectedProfessional.email)}`;
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('confirmationModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html> 

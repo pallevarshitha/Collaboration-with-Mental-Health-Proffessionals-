@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Mental Health Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .welcome-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .welcome-section h1 {
+            margin: 0;
+            color: #333;
+        }
+        .welcome-section p {
+            margin: 10px 0 0;
+            color: #666;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h2 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .card p {
+            margin: 0 0 15px;
+            color: #666;
+        }
+        .card-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .card-link:hover {
+            background-color: #45a049;
+        }
+        .logout-btn {
+            padding: 8px 16px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+        .resource-links {
+            margin-top: 15px;
+        }
+        .resource-links h3 {
+            color: #333;
+            margin: 15px 0 10px;
+            font-size: 1.1em;
+        }
+        .resource-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+        }
+        .resource-links li {
+            margin-bottom: 8px;
+        }
+        .resource-link {
+            color: #2196F3;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .resource-link:hover {
+            color: #1976D2;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="welcome-section">
+                <h1>Welcome, {{ current_user.name }}</h1>
+                <p>Your mental health journey starts here.</p>
+            </div>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>Find a Professional</h2>
+                <p>Connect with mental health professionals who can help you on your journey.</p>
+                <a href="{{ url_for('professional_list') }}" class="card-link">Browse Professionals</a>
+            </div>
+            
+            <div class="card">
+                <h2>Wellness Resources</h2>
+                <p>Access helpful videos for stress relief, yoga, and exercise.</p>
+                <div class="resource-links">
+                    <h3>Stress Relief Videos</h3>
+                    <ul>
+                        <li><a href="https://www.youtube.com/watch?v=z6X5oEIg6Ak" target="_blank" class="resource-link">10 Minute Meditation for Stress Relief</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=1ZYbU82GVz4" target="_blank" class="resource-link">Guided Breathing Exercise</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=inpok4MKVLM" target="_blank" class="resource-link">Quick Stress Relief Techniques</a></li>
+                    </ul>
+                    
+                    <h3>Yoga & Asanas</h3>
+                    <ul>
+                        <li><a href="https://www.youtube.com/watch?v=hJbRpHZr_d0" target="_blank" class="resource-link">Beginner's Yoga Flow</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=9SN6z1n6ZzM" target="_blank" class="resource-link">Yoga for Anxiety Relief</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=slEk3qy6w6g" target="_blank" class="resource-link">Morning Yoga Routine</a></li>
+                    </ul>
+                    
+                    <h3>Exercise Videos</h3>
+                    <ul>
+                        <li><a href="https://www.youtube.com/watch?v=ml6cT4AZdqI" target="_blank" class="resource-link">30-Minute Full Body Workout</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=UBMk30rjy0o" target="_blank" class="resource-link">Low Impact Cardio</a></li>
+                        <li><a href="https://www.youtube.com/watch?v=swRCx2LxJLU" target="_blank" class="resource-link">Stretching Exercises</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

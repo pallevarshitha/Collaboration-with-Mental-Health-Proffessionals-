@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with {{ professional.username }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #1a1a1a;
+        }
+        .chat-container {
+            display: flex;
+            height: 100vh;
+            background-color: white;
+        }
+        .sidebar {
+            width: 300px;
+            background-color: white;
+            border-right: 1px solid #e9ecef;
+            padding: 2rem;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        }
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+        }
+        .chat-header {
+            background-color: white;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .chat-header h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 600;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .message {
+            max-width: 70%;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            position: relative;
+            animation: messageSlide 0.3s ease;
+        }
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .message.sent {
+            background-color: #28a745;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        .message.received {
+            background-color: white;
+            color: #2c3e50;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .message-content {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        .message-time {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            text-align: right;
+        }
+        .chat-input {
+            background-color: white;
+            padding: 1.5rem;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .message-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+        .message-input:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+            background-color: white;
+        }
+        .send-button, .attachment-button {
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .send-button {
+            background-color: #28a745;
+            color: white;
+            min-width: 100px;
+        }
+        .send-button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+        }
+        .attachment-button {
+            background-color: #6c757d;
+            color: white;
+            width: 50px;
+            height: 50px;
+        }
+        .attachment-button:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.2);
+        }
+        .attachment-preview {
+            margin-top: 0.5rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+            border: 1px solid #e9ecef;
+        }
+        .attachment-preview.show {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .attachment-name {
+            font-size: 0.9rem;
+            color: #495057;
+        }
+        .remove-attachment {
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .remove-attachment:hover {
+            transform: scale(1.1);
+        }
+        .attachment {
+            margin-top: 0.8rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .attachment img {
+            max-width: 250px;
+            max-height: 250px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .attachment video {
+            max-width: 350px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .attachment a {
+            color: #28a745;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .attachment a:hover {
+            background-color: #f1f8f1;
+            color: #218838;
+        }
+        .professional-info {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .professional-info h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+        }
+        .professional-info p {
+            color: #495057;
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.2);
+        }
+        .back-button::before {
+            content: "←";
+            font-size: 1.2rem;
+        }
+        /* Media Modal Styles */
+        .media-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .media-modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+        .media-modal img, .media-modal video {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+        .close-media {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="sidebar">
+            <a href="{{ url_for('professional_list') }}" class="back-button">Back to Professionals</a>
+            <div class="professional-info">
+                <h2>{{ professional.username }}</h2>
+                <p><strong>Specialization:</strong> {{ professional.specialization }}</p>
+                <p><strong>Experience:</strong> {{ professional.experience }}</p>
+                <p><strong>Education:</strong> {{ professional.education }}</p>
+                <p><strong>Bio:</strong> {{ professional.bio }}</p>
+                <p><strong>Rate:</strong> ${{ professional.hourly_rate }}/hour</p>
+            </div>
+        </div>
+        <div class="chat-main">
+            <div class="chat-header">
+                <h2>Chat with {{ professional.username }}</h2>
+            </div>
+            <div class="chat-messages">
+                {% for message in messages %}
+                    <div class="message {% if message.sender_id == current_user.id %}sent{% else %}received{% endif %}">
+                        {% if message.attachment_path %}
+                            <div class="attachment">
+                                {% if message.attachment_path.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')) %}
+                                    <img src="{{ url_for('static', filename=message.attachment_path) }}" alt="Image" onclick="showMediaModal(this, 'image')">
+                                {% elif message.attachment_path.lower().endswith(('.mp4', '.webm', '.ogg')) %}
+                                    <video controls preload="auto" autoplay muted playsinline onclick="showMediaModal(this, 'video')">
+                                        <source src="{{ url_for('static', filename=message.attachment_path) }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                {% else %}
+                                    <a href="{{ url_for('static', filename=message.attachment_path) }}" target="_blank">
+                                        📎 {{ message.attachment_path.split('/')[-1] }}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <div class="message-content">{{ message.content }}</div>
+                        <div class="message-time">{{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <form id="message-form" enctype="multipart/form-data" class="chat-input">
+                <input type="file" id="attachment-input" name="attachment" style="display: none">
+                <button type="button" class="attachment-button" onclick="document.getElementById('attachment-input').click()">
+                    📎
+                </button>
+                <input type="text" id="message-input" name="message" class="message-input" placeholder="Type your message...">
+                <button type="submit" class="send-button">Send</button>
+            </form>
+            <div id="attachment-preview" class="attachment-preview">
+                <span class="attachment-name"></span>
+                <span class="remove-attachment" onclick="removeAttachment()">×</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Media Modal -->
+    <div id="mediaModal" class="media-modal">
+        <div class="media-modal-content">
+            <span class="close-media" onclick="closeMediaModal()">&times;</span>
+            <div id="mediaContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.querySelector('.chat-messages');
+        let mediaItems = [];
+
+        // Scroll to bottom of chat
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Handle file attachment preview
+        document.getElementById('attachment-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const preview = document.getElementById('attachment-preview');
+                const fileName = document.querySelector('.attachment-name');
+                fileName.textContent = file.name;
+                preview.classList.add('show');
+            }
+        });
+
+        function removeAttachment() {
+            document.getElementById('attachment-input').value = '';
+            document.getElementById('attachment-preview').classList.remove('show');
+        }
+
+        // Handle message submission
+        document.getElementById('message-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const messageInput = document.getElementById('message-input');
+            const attachmentInput = document.getElementById('attachment-input');
+            const message = messageInput.value;
+            const attachment = attachmentInput.files[0];
+
+            if (!message && !attachment) return;
+
+            const formData = new FormData();
+            if (message) formData.append('message', message);
+            if (attachment) formData.append('attachment', attachment);
+
+            try {
+                const response = await fetch(`/send_message/{{ professional.email }}`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message sent';
+                    
+                    if (data.attachment_path) {
+                        const attachment = document.createElement('div');
+                        attachment.className = 'attachment';
+                        
+                        const fileExt = data.attachment_path.split('.').pop().toLowerCase();
+                        if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExt)) {
+                            const img = document.createElement('img');
+                            img.src = `/static/${data.attachment_path}`;
+                            img.onclick = () => showMediaModal(img, 'image');
+                            attachment.appendChild(img);
+                            mediaItems.push({ element: img, type: 'image' });
+                        } else if (['mp4', 'webm', 'ogg'].includes(fileExt)) {
+                            const video = document.createElement('video');
+                            video.src = `/static/${data.attachment_path}`;
+                            video.controls = true;
+                            video.preload = 'auto';
+                            video.autoplay = true;
+                            video.muted = true;
+                            video.playsInline = true;
+                            video.onclick = () => showMediaModal(video, 'video');
+                            attachment.appendChild(video);
+                            mediaItems.push({ element: video, type: 'video' });
+                        } else {
+                            const link = document.createElement('a');
+                            link.href = `/static/${data.attachment_path}`;
+                            link.target = '_blank';
+                            link.innerHTML = `📎 ${data.attachment_path.split('/').pop()}`;
+                            attachment.appendChild(link);
+                        }
+                        
+                        messageDiv.appendChild(attachment);
+                    }
+                    
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'message-content';
+                    contentDiv.textContent = data.message;
+                    messageDiv.appendChild(contentDiv);
+                    
+                    const timeDiv = document.createElement('div');
+                    timeDiv.className = 'message-time';
+                    timeDiv.textContent = data.timestamp;
+                    messageDiv.appendChild(timeDiv);
+                    
+                    chatMessages.appendChild(messageDiv);
+                    messageInput.value = '';
+                    attachmentInput.value = '';
+                    document.getElementById('attachment-preview').classList.remove('show');
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+        });
+
+        function showMediaModal(mediaElement, type) {
+            const modal = document.getElementById('mediaModal');
+            const mediaContent = document.getElementById('mediaContent');
+            mediaContent.innerHTML = '';
+            
+            if (type === 'image') {
+                const img = document.createElement('img');
+                img.src = mediaElement.src;
+                mediaContent.appendChild(img);
+            } else if (type === 'video') {
+                const video = document.createElement('video');
+                video.src = mediaElement.src;
+                video.controls = true;
+                video.preload = 'auto';
+                video.autoplay = true;
+                video.muted = true;
+                video.playsInline = true;
+                video.style.width = '100%';
+                video.style.maxHeight = '90vh';
+                video.style.backgroundColor = '#000';
+                video.style.display = 'block';
+                video.style.margin = '0 auto';
+                video.play().catch(function(error) {
+                    console.log("Video play failed:", error);
+                    video.play();
+                });
+                mediaContent.appendChild(video);
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeMediaModal() {
+            document.getElementById('mediaModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('mediaModal');
+            if (event.target == modal) {
+                closeMediaModal();
+            }
+        }
+    </script>
+</body>
+</html> 
